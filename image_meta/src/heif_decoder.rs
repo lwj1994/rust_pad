@@ -1,6 +1,7 @@
 use std::io::{Error, ErrorKind};
 use libheif_rs::HeifContext;
 use crate::decoder::Decoder;
+use crate::exif::get_exif;
 use crate::ImageMeta;
 
 pub(crate) struct HeifDecoder {}
@@ -12,10 +13,22 @@ impl Decoder for HeifDecoder {
             Ok(e) => {
                 match e.primary_image_handle() {
                     Ok(e) => {
+                        let mut width = e.width();
+                        let mut height = e.height();
+                        let mut orientation = 0;
+                        match get_exif(&file_path) {
+                            Ok(e) => {
+                                width = e.width;
+                                height = e.height;
+                                orientation = e.orientation;
+                            }
+                            Err(_) => {}
+                        };
                         Ok(ImageMeta {
-                            width: e.width(),
-                            height: e.height(),
-                            frames: 1,
+                            width,
+                            height,
+                            orientation: orientation as u8,
+                            num_frames: 0,
                             mime_type: mime_type.to_string(),
                         })
                     }
@@ -28,9 +41,5 @@ impl Decoder for HeifDecoder {
                 Err(Error::new(ErrorKind::Other, e))
             }
         }
-    }
-
-    fn can_parse(&self, file_path: String, mime_type: String) -> bool {
-        str::eq(&mime_type, "image/heic") || str::eq(&mime_type, "image/heif")
     }
 }

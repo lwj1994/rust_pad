@@ -1,0 +1,5 @@
+
+# macos
+[target.aarch64-linux-android]
+ar = "/Users/luwenjie/Documents/android/sdk/ndk/23.1.7779620/arm64/bin/aarch64-linux-android-ar"
+linker = "/Users/weilu/NDK/arm64/bin/aarch64-linux-android-clang"

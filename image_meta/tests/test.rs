@@ -1,13 +1,13 @@
 extern crate image_meta;
 use image_meta::read;
 use std::fs;
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_read_meta() {
+
         let images_dir = fs::read_dir("tests/images").unwrap();
         images_dir.for_each(|e| {
             test_get_format(e.unwrap().path().to_str().unwrap());
@@ -22,7 +22,6 @@ mod tests {
         match image_mate_res {
             Ok(e) => {
                 println!("res {}", e,)
-
             },
             Err(e) => {
                 println!("error {}", e)

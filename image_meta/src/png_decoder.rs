@@ -1,6 +1,5 @@
 use std::io::{Error, ErrorKind};
 use std::fs::File;
-use png::FrameControl;
 use crate::decoder::Decoder;
 use crate::ImageMeta;
 
@@ -12,10 +11,9 @@ impl Decoder for PngDecoder {
         match decoder.read_info() {
             Ok(e) => {
                 let info = e.info();
-                let mut  frames = 1;
+                let mut frames = 0;
                 match info.animation_control {
-                    None => {
-                    }
+                    None => {}
                     Some(e) => {
                         frames = e.num_frames
                     }
@@ -23,7 +21,8 @@ impl Decoder for PngDecoder {
                 Ok(ImageMeta {
                     width: info.width,
                     height: info.height,
-                    frames,
+                    num_frames: frames,
+                    orientation: 0,
                     mime_type: mime_type.to_string(),
                 })
             }
@@ -31,9 +30,5 @@ impl Decoder for PngDecoder {
                 Err(Error::new(ErrorKind::Other, e.to_string()))
             }
         }
-    }
-
-    fn can_parse(&self, file_path: String, mime_type: String) -> bool {
-        str::eq(&mime_type, "image/png")
     }
 }
