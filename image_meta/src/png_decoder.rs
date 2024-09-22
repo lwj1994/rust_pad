@@ -1,6 +1,6 @@
 use std::io::{Error, ErrorKind};
 use std::fs::File;
-use png::{DecodingError, Reader};
+use png::FrameControl;
 use crate::decoder::Decoder;
 use crate::ImageMeta;
 
@@ -12,9 +12,18 @@ impl Decoder for PngDecoder {
         match decoder.read_info() {
             Ok(e) => {
                 let info = e.info();
+                let mut  frames = 1;
+                match info.animation_control {
+                    None => {
+                    }
+                    Some(e) => {
+                        frames = e.num_frames
+                    }
+                }
                 Ok(ImageMeta {
                     width: info.width,
                     height: info.height,
+                    frames,
                     mime_type: mime_type.to_string(),
                 })
             }

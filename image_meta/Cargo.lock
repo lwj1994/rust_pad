@@ -443,6 +443,7 @@ version = "0.1.0"
 dependencies = [
  "file-format",
  "image",
+ "jpeg-decoder",
  "lazy_static",
  "libheif-rs",
  "png",
@@ -498,6 +499,9 @@ name = "jpeg-decoder"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f5d4a7da358eff58addd2877a45865158f0d78c911d43a5784ceb7bbf52833b0"
+dependencies = [
+ "rayon",
+]
 
 [[package]]
 name = "lazy_static"

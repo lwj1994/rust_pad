@@ -1,6 +1,9 @@
 mod decoder;
 mod png_decoder;
 mod registry;
+mod heif_decoder;
+mod jpeg_decoder;
+
 use crate::decoder::Decoder;
 use file_format::FileFormat;
 use std::fmt;
@@ -28,12 +31,13 @@ pub fn read(file_path: &str) -> Result<ImageMeta> {
 pub struct ImageMeta {
     pub width: u32,
     pub height: u32,
+    pub frames: u32,
     pub mime_type: String,
 }
 
 impl fmt::Display for ImageMeta {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "ImageMeta(width={}, height={},mime_type={})", self.width, self.height, self.mime_type)
+        write!(f, "ImageMeta(width={}, height={}, mime_type={}, frames={})", self.width, self.height, self.mime_type, self.frames)
     }
 }
 
