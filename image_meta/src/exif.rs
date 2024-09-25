@@ -11,17 +11,18 @@ pub(crate) fn get_exif(file_path: &str) -> io::Result<ExifInfo> {
             let mut height = 0;
 
             // width
-            match e.get_field(exif::Tag::PixelXDimension, exif::In::PRIMARY) {
+            match e.get_field(exif::Tag::PixelXDimension, exif::In::THUMBNAIL) {
                 Some(field) => {
                     if let Some(w) = field.value.get_uint(0) {
                         width = w;
+                        println!("width = {width}")
                     }
                 }
                 None => {}
             }
 
             // height
-            match e.get_field(exif::Tag::PixelYDimension, exif::In::PRIMARY) {
+            match e.get_field(exif::Tag::PixelYDimension, exif::In::THUMBNAIL) {
                 Some(field) => {
                     if let Some(h) = field.value.get_uint(0) {
                         height = h;
@@ -32,13 +33,14 @@ pub(crate) fn get_exif(file_path: &str) -> io::Result<ExifInfo> {
 
 
             let mut orientation: u8 = 0;
-            match e.get_field(exif::Tag::Orientation, exif::In::PRIMARY) {
+            match e.get_field(exif::Tag::Orientation, exif::In::THUMBNAIL) {
                 None => {}
 
                 Some(e) => {
                     match e.value.get_uint(0) {
                         None => {}
                         Some(e) => {
+                            println!("orientation = {e}");
                             if (0..=8).contains(&e) {
                                 orientation = e as u8;
                                 if [5, 6, 7, 8].contains(&e) {
