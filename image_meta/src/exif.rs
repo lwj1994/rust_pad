@@ -15,7 +15,6 @@ pub(crate) fn get_exif(file_path: &str) -> io::Result<ExifInfo> {
                 Some(field) => {
                     if let Some(w) = field.value.get_uint(0) {
                         width = w;
-                        println!("width = {width}")
                     }
                 }
                 None => {}
@@ -40,7 +39,6 @@ pub(crate) fn get_exif(file_path: &str) -> io::Result<ExifInfo> {
                     match e.value.get_uint(0) {
                         None => {}
                         Some(e) => {
-                            println!("orientation = {e}");
                             if (0..=8).contains(&e) {
                                 orientation = e as u8;
                                 if [5, 6, 7, 8].contains(&e) {

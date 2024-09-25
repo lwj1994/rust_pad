@@ -1,5 +1,5 @@
 extern crate image_meta;
-use image_meta::read;
+use image_meta::get;
 use std::fs;
 #[cfg(test)]
 mod tests {
@@ -18,7 +18,7 @@ mod tests {
 
     fn test_get_format(file_path: &str) {
         println!("path {}", file_path);
-        let image_mate_res = read(file_path);
+        let image_mate_res = get(file_path);
         match image_mate_res {
             Ok(e) => {
                 println!("res {}", e,)

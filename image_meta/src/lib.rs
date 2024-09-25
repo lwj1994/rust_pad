@@ -15,7 +15,7 @@ fn get_format(file_path: &str) -> Result<FileFormat> {
     FileFormat::from_file(file_path)
 }
 
-pub fn read(file_path: &str) -> Result<ImageMeta> {
+pub fn get(file_path: &str) -> Result<ImageMeta> {
     let format = get_format(file_path)?;
     let mime_type = format.media_type();
     match registry::REGISTRY.get(mime_type.to_string()) {
